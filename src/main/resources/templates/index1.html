@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" th:href="@{/demo.css}" type="text/css"/>
+	</head>
+	<body>
+		<h1 th:text="${title}"></h1>
+		<span></span>
+		<input id="contextPath" th:value="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() + '/'} " />
+		<ul th:each="demoModel,demoModelStat:${demoModels}">
+			<li th:text="${demoModel.id + demoModel.text}" ></li>
+			<li th:text="${demoModel.id} eq 3 ? ${demoModel.id + demoModel.text}:(${demoModel.id} ne 3 ? ${demoModel.text})"></li>
+			<li th:unless="${demoModel.id} eq 4" th:text="unless + ${demoModel.id} + ${demoModel.text}"></li>
+		</ul>
+		
+		<h1 th:text="${title}"></h1>
+		<div th:switch="${type}">
+			<p th:case="1">等于一</p>
+			<p th:case="2">等于二</p>
+			<p th:case="3">等于三</p>
+			<p th:case="4">等于四</p>
+			<p th:case="*">其它</p>
+		</div>
+		
+		<input type="text" id="testId" name="testName" th:value="${type} + ${title}" />
+		
+		<div th:replace="incloud :: html"></div>
+		<hr/>
+		<div th:replace="incloud :: model"></div>
+		
+		<MyTag url="/haha">
+			<button>haha</button>
+		</MyTag>
+		<MyTag url="/lala">
+			<button>lala</button>
+		</MyTag>
+		<img th:src="@{/asd/asd} + '?title=' + ${title}">
+	</body>
+	<script type="text/javascript" th:src="@{/jquery.min.js}"></script>
+	<script>
+		var root = "[[@{/}]]";
+		var message = "[[${title}]]";
+		console.log(message);
+		console.log($("#contextPath").val());
+	</script>
+</html>
